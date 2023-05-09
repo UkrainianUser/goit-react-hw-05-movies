@@ -14,7 +14,6 @@ const Home = () => {
       });
   }, []);
 
-	console.log(trending);
 	return (
 		<>
 		<div>Home</div>
