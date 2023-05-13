@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Movies from 'components/movies/Movies';
+import ListMovies from 'components/listMovies/ListMovies';
 import { fetchTrendingMovies } from 'services/Api';
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
       {error ? (
         <p>{error}</p>
       ) : (
-        <Movies movies={movies} />
+        <ListMovies movies={movies} />
       )}
     </>
   );
