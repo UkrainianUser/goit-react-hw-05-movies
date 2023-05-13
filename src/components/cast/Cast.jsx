@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchMovieCast } from "services/Api";
 import CastDetails from "components/castDetails/CastDetails";
+import css from 'components/cast/Cast.module.css';
 
 const Cast = () => {
 
@@ -25,7 +26,7 @@ const Cast = () => {
 			{error ? (
 				<p>{error}</p>
 			) : (
-				<ul>
+				<ul className={css.classList}>
 					{cast?.map((castValue) => {
 						return(
 							<CastDetails key={castValue.id}
