@@ -1,31 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import { Link, Outlet } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState, Suspense } from 'react';
+import { useParams, useLocation, Link, Outlet } from "react-router-dom";
+import { fetchMoviesById } from 'services/Api';
+import BackLink from 'components/backLink/BackLink';
+import Loader from 'components/loader/Loader';
+import MovieInfo from 'components/movieInfo/MovieInfo';
 
-const MovieDetails = ({ id }) => {
-console.log(id);
-	const [movie, setMovie] = useState([]);
+const MovieDetails = () => {
 
-  // useEffect(() => {
-  //   axios.get(`https://api.themoviedb.org/3/movie/${id}?api_key=7d64af72531b3a4fd4be20da05e7a65f`)
-  //     .then(response => {
-  //       setMovie(response.data.results);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, [id]);
+  const {movieId} = useParams();
+	const [movie, setMovie] = useState({});
+  const [error, setError] = useState('');
 
-	// return (
-	// 	<>
-	// 	<div>MovieDetails</div>
-	// 		<ul>
-  //       <li><Link to="cast">Cast</Link></li>
-  //       <li><Link to="reviews">Reviews</Link></li>
-  //     </ul>
-	// 	<Outlet />
-	// 	</>
-	// );
+  const location = useLocation();
+  const backLinkPath = location.state?.from ?? '/';
+  
+  useEffect(() => {
+    async function fetchMovies() {
+      const movies = await fetchMoviesById(movieId);
+      setMovie(movie);
+    }
+    fetchMovies().catch((error) => {
+      setError('The resource you requsted could not be found.');
+      console.error(error);
+    });
+  }, [movieId]);
+
+	return (
+		<>
+      <BackLink to={backLinkPath}/>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <>
+        <MovieInfo
+        poster_path={movie.poster_path}
+        title={movie.title}
+        release_date={movie.release_date}
+        vote_average={movie.vote_average}
+        overview={movie.overview}
+        genres={movie.genres}
+        />
+        <h4>Additional information</h4>
+        <ul>
+          <li>
+            <Link to='cast' state={{from: backLinkPath}}>Cast</Link>
+          </li>
+          <li>
+            <Link to='reviews' state={{from: backLinkPath}}>Reviews</Link>
+          </li>
+        </ul>
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
+        </>
+      )}
+		</>
+	);
 };
 
 export default MovieDetails;

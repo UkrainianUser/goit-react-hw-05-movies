@@ -11,7 +11,7 @@ const Home = () => {
         const results = await fetchTrendingMovies();
         setMovies(results);
     }
-    fetchMovies.catch((error) => {
+    fetchMovies().catch((error) => {
       setError('Sorry, something went wrong...');
       console.error(error);
     });
