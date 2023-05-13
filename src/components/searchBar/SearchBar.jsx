@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
+import css from 'components/searchBar/SearchBar.module.css'
 
 const SearchBar = ({onSubmit, searchQuery}) => {
 	const [query, setQuery] = useState('');
@@ -26,10 +27,12 @@ const SearchBar = ({onSubmit, searchQuery}) => {
 	return (
 		<form onSubmit={handleSubmit}>
 			<input
+				className={css.input}
 				type="text"
 				name="query"
 				value={query}
 				onChange={handleChange}
+				placeholder="Enter the name of the movie"
 			/>
 			<button type="submit" disabled={disabledBtn}>Search</button>
 		</form>

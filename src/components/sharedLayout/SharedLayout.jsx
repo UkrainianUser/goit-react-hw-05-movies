@@ -7,7 +7,7 @@ import Loader from "components/loader/Loader";
 export const SharedLayout = () => {
 	return (
 		<>
-		<header>
+		<header className={css.header}>
 			<div className={css.container}>
 				<ul className={css.nav}>
           <li><NavLink to="/">Home</NavLink></li>
@@ -16,9 +16,11 @@ export const SharedLayout = () => {
 			</div>
 		</header>
 		<main>
-			<Suspense fallback={<Loader />}>
-				<Outlet />
-			</Suspense>
+			<div className={css.container}>
+				<Suspense fallback={<Loader />}>
+					<Outlet />
+				</Suspense>
+			</div>
 		</main>
 		</>
 	);

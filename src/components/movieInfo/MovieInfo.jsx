@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
+import css from 'components/movieInfo/MovieInfo.module.css';
 
 const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w300/';
 
 const MovieInfo = ({poster_path, title, release_date, vote_average, overview, genres}) => {
 	return (
-		<div>
+		<div className={css.movieCard}>
 			{poster_path && <img src={IMAGES_BASE_URL + poster_path} alt={title} />}
 			<div>
 				<h2>{title} ({release_date?.slice(0, 4)})</h2>
