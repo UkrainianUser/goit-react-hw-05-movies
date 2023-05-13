@@ -5,20 +5,20 @@ import CastDetails from "components/castDetails/CastDetails";
 
 const Cast = () => {
 
-	const {moviId} = useParams();
+	const {movieId} = useParams();
 	const [cast, setCast] = useState([]);
 	const [error, setError] = useState('');
 
 	useEffect(() => {
 		async function fetchCast() {
-			const cast = await fetchMovieCast(moviId);
+			const cast = await fetchMovieCast(movieId);
 			setCast(cast);
 		}
 		fetchCast().catch((error) => {
 			setError('Sorry, something went wrong.');
 			console.error(error);
 		})
-	}, [moviId]);
+	}, [movieId]);
 
 	return (
 		<div>

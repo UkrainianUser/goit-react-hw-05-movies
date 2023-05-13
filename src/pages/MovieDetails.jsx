@@ -17,7 +17,7 @@ const MovieDetails = () => {
   useEffect(() => {
     async function fetchMovies() {
       const movies = await fetchMoviesById(movieId);
-      setMovie(movie);
+      setMovie(movies);
     }
     fetchMovies().catch((error) => {
       setError('The resource you requsted could not be found.');

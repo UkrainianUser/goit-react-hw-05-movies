@@ -45,7 +45,7 @@ export const fetchMovieCast = async (movie_id) => {
 	return response.data.cast;
 };
 
-export const fetchMoviesRewiews = async (movie_id) => {
+export const fetchMovieRewiews = async (movie_id) => {
 	const response = await axios.get(`movie/${movie_id}`, {
 		params: {
 			api_key: API_KEY,
