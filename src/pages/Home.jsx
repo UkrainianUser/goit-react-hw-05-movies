@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
+import Movies from 'components/movies/Movies';
+import { fetchTrendingMovies } from 'services/Api';
 
 const Home = () => {
-	const [trending, setTrending] = useState([]);
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('https://api.themoviedb.org/3/trending/movie/week?api_key=7d64af72531b3a4fd4be20da05e7a65f')
-      .then(response => {
-        setTrending(response.data.results);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    async function fetchMovies() {
+        const results = await fetchTrendingMovies();
+        setMovies(results);
+    }
+    fetchMovies.catch((error) => {
+      setError('Sorry, something went wrong...');
+      console.error(error);
+    });
   }, []);
 
-	return (
-		<>
-		<div>Home</div>
-		<ul>
-			{trending.map(({id, title}) => (
-				<li key={id}>
-				<a href="#">{title}</a>
-				</li>
-			))}
-		</ul>
-		</>
-
-	);
+  return (
+    <>
+      <h2>Trending today</h2>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <Movies movies={movies} />
+      )}
+    </>
+  );
 };
 
 export default Home;

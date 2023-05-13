@@ -1,11 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { SharedLayout } from "./sharedLayout/SharedLayout";
-import Home from "pages/Home";
-import Movies from "pages/Movies";
-import MovieDetails from "pages/MovieDetails";
-import { Cast } from "./cast/Cast";
-import { Reviews } from "./reviews/Reviews";
+
+const Home = lazy(() => import("pages/Home"));
+const Movies = lazy(() => import ("pages/Movies"));
+const MovieDetails = lazy(() => import("pages/MovieDetails"));
+const Cast = lazy(() => import("./cast/Cast"));
+const Reviews = lazy(() => import("./reviews/Reviews"));
 
 export const App = () => {
   return (
@@ -21,5 +22,3 @@ export const App = () => {
     </Routes>
   );
 };
-
-// key=7d64af72531b3a4fd4be20da05e7a65f

@@ -1,48 +1,61 @@
-import React, {  useState } from "react";
-import axios from "axios";
+import React, {  useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchMoviesSearchQuery } from 'services/Api';
 
 const Movies = () => {
 
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchQuery, setSearchQuery] = useState('');
 	const [movies, setMovies] = useState([]);
-	
-	const handleQueryChange = evt => {
-		setSearchQuery(evt.currentTarget.value.toLowerCase());
-	};
-	
-	const handleSubmit = evt => {
-		evt.preventDefault();
+	const [error, setError] = useState('');
 
-		if (searchQuery !== "") {
-			axios.get(`https://api.themoviedb.org/3/search/movie?api_key=7d64af72531b3a4fd4be20da05e7a65f&query=${searchQuery}`)
-			.then((response) => {
-				setMovies(response.data.results);})
-			.catch((error) => {
-				console.error(error);});
-		};
-	};
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const results = await fetchMoviesSearchQuery(searchQuery);
+        setMovies(results);
+      } catch (error) {
+        setError('Sorry, something went wrong...');
+        console.error(error);
+      }
+    }
+    fetchMovies();
+  }, [searchQuery]);
+
+  const handleQueryChange = evt => {
+    setSearchQuery(evt.target.value.toLowerCase());
+  };
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+		onSubmit(searchQuery);
+  };
 
 	return (
 		<>
-		<div>Movies</div>
-		<form onSubmit={handleSubmit}>
-			<input
-				type="text"
-				autoComplete="off"
-				autoFocus
-				placeholder="Search movies"
-				onChange={handleQueryChange}
-				value={searchQuery}
-			/>
-			<button type="submit">Search</button>
-		</form>
-		<ul>
-			{movies.length > 0 && movies.map(({id, title}) => (
-				<li key={id}>
-				<a href="#">{title}</a>
-				</li>
-			))}
-		</ul>
+      <div>Movies</div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search movies"
+          onChange={handleQueryChange}
+          value={searchQuery}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <ul>
+          {movies.length > 0 &&
+            movies.map(({ id, title }) => (
+              <li key={id}>
+                <Link to={`/movie/${id}`}>{title}</Link>
+              </li>
+            ))}
+        </ul>
+      )}
 		</>
 	);
 };
