@@ -37,6 +37,7 @@ const Cast = () => {
 					})}
 				</ul>
 			)}
+			{cast.length === 0 && <p>There is no information about the cast of this movie.</p>}
 		</div>
 	);
 };

@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import css from 'components/movieInfo/MovieInfo.module.css';
+import defaultImg from 'images/default.jpg';
 
 const IMAGES_BASE_URL = 'https://image.tmdb.org/t/p/w300/';
 
 const MovieInfo = ({poster_path, title, release_date, vote_average, overview, genres}) => {
 	return (
 		<div className={css.movieCard}>
-			{poster_path && <img src={IMAGES_BASE_URL + poster_path} alt={title} />}
+			{/* {poster_path && <img src={IMAGES_BASE_URL + poster_path} alt={title} />} */}
+			<img src={poster_path ? IMAGES_BASE_URL + poster_path : defaultImg} alt={title}/>
 			<div>
 				<h2>{title} ({release_date?.slice(0, 4)})</h2>
 				<p>User Score: {Math.round(vote_average * 10)}%</p>
